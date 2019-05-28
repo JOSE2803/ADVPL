@@ -11,16 +11,16 @@ User Function CrtPedCp()
     	Private cContat := Space(15)
     	Private cArquiv	:= Space(100)
     	Private oCodFnc, oCndPag, oContat, oArquiv
-   		Private oDlg
+   	Private oDlg
    		
-   		DlgHome()
+   	DlgHome()
     	
 Return
 
-Static Function LerTxt()
+Static Function LerTxt() //Função para ler o arquivo TXT e passar as informações para um array.
 
 	Local cLinha	:= ""
-	Local lRet		:= .F.
+	Local lRet	:= .F.
 	
 	CursorWait()
 	
