@@ -5,7 +5,7 @@
 
 User Function CrtPedCp()
         
-    	Private aTxt	:= {}
+    	Private aTxt	:= {} //Array que irá receber as informações do TXT.
     	Private cCodFnc	:= Space(6)
     	Private cCndPag := Space(3)
     	Private cContat := Space(15)
@@ -17,7 +17,8 @@ User Function CrtPedCp()
     	
 Return
 
-Static Function LerTxt() //Função para ler o arquivo TXT e passar as informações para um array.
+//A função LerTxt() lê o arquivo TXT contido em algum diretório e passa as informações para um array.
+Static Function LerTxt() 
 
 	Local cLinha	:= ""
 	Local lRet	:= .F.
@@ -26,10 +27,13 @@ Static Function LerTxt() //Função para ler o arquivo TXT e passar as informaç
 	
 	aTxt := {}
 			
-	If !File(cArquiv)
-	    Aviso("Arquivo","Arquivo não selecionado ou invalido.",{"Sair"},1)
-        Return
-    Else
+	If !File(cArquiv) //Verifica se o caminho informado do arquivo TXT é valido.
+	
+		Aviso("Arquivo","Arquivo não selecionado ou invalido.",{"Sair"},1)
+        	Return
+		
+    	Else
+	
 		FT_FUse(cArquiv)
 	
 		FT_FGoTop()
@@ -38,7 +42,10 @@ Static Function LerTxt() //Função para ler o arquivo TXT e passar as informaç
 		
 			cLinha := FT_FReadLn()
 			cLinha := AllTrim(cLinha)
-	
+			
+			//Passa para o array aTxt as informações do TXT.
+			//Nesse caso ele considera que cada coluna do TXT é separada por ";".
+			//A função Separa() faz essa separação.
 			aAdd(aTxt,	Separa(cLinha, ";", .F.))
 	
 			FT_FSkip()
@@ -55,9 +62,10 @@ Static Function LerTxt() //Função para ler o arquivo TXT e passar as informaç
 
 Return
 
+//Função ExcAutPc() realiza o processo do ExecAuto.
 Static Function ExcAutPc()
     
-	Local nI		:= 0
+	Local nI	:= 0
 	Local aCmpCab	:= {}
 	Local aCmpLst	:= {}
 	Local aLstPrd	:= {}
@@ -106,19 +114,19 @@ Static Function ExcAutPc()
 		
 		If lMsErroAuto
 			MostraErro()
-	        DisarmTransaction()
-	    Else
-	    	MsgInfo("Pedido de compra incluído com sucesso!")
-	    	MsgInfo("Pedido número: " + cNumPdc)		
-	    	cCodFnc	:= ""
-	    	cCodFnc := Space(6)
-	    	cCndPag := ""
-	    	cCndPag := Space(3)
-	    	cContat := "" 
-	    	cContat := Space(15)
-	    	cArquiv	:= ""  
-	    	cArquiv := Space(100)
-	    	oCodFnc:SetFocus()
+	        	DisarmTransaction()
+	    	Else
+			MsgInfo("Pedido de compra incluído com sucesso!")
+			MsgInfo("Pedido número: " + cNumPdc)		
+			cCodFnc	:= ""
+			cCodFnc := Space(6)
+			cCndPag := ""
+			cCndPag := Space(3)
+			cContat := "" 
+			cContat := Space(15)
+			cArquiv	:= ""  
+			cArquiv := Space(100)
+			oCodFnc:SetFocus()
 		EndIf
 		
 	End Transaction
@@ -127,6 +135,7 @@ Static Function ExcAutPc()
 
 Return
 
+//Função DlgHome que monta uma janela com botões e comandos para facilidade do usuário.
 Static Function DlgHome()
 
 	Local oBtn1, oBtn2
